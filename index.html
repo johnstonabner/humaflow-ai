@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HumaFlow AI — AI Content Humanizer</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts: Syne (display) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ════════════════════════════════
+       NAV
+  ════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <span class="logo-mark">H</span>
+        <span class="logo-text">HumaFlow <em>AI</em></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#app">App</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#api">API</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <a href="#app" class="nav-cta">Try Free →</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════
+       HERO / LANDING
+  ════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="grid-lines"></div>
+    </div>
+    <div class="hero-content">
+      <div class="badge reveal">✦ AI-Powered Humanizer</div>
+      <h1 class="hero-title reveal">
+        Make AI Writing<br />
+        <span class="highlight">Sound Human.</span>
+      </h1>
+      <p class="hero-sub reveal">
+        Paste any AI-generated content and HumaFlow transforms it into
+        natural, engaging writing — instantly. No robotics, no fluff.
+        Just words that feel real.
+      </p>
+      <div class="hero-actions reveal">
+        <a href="#app" class="btn-primary">
+          <span>Humanize Now</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="#how" class="btn-ghost">See How It Works</a>
+      </div>
+      <div class="hero-stats reveal">
+        <div class="stat"><strong>50K+</strong><span>Texts Humanized</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><strong>5</strong><span>Tone Modes</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><strong>~1s</strong><span>Processing Time</span></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="demo-card">
+        <div class="demo-label">AI Input</div>
+        <p class="demo-text ai-text">Furthermore, it is important to note that the implementation of this system will facilitate enhanced productivity and ensure optimal utilization of available resources.</p>
+        <div class="arrow-down">↓</div>
+        <div class="demo-label human">Human Output</div>
+        <p class="demo-text human-text" id="heroTyped"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════
+       MAIN APP
+  ════════════════════════════════ -->
+  <section class="app-section" id="app">
+    <div class="container">
+      <div class="section-label reveal">The Tool</div>
+      <h2 class="section-title reveal">Start Humanizing</h2>
+      <p class="section-sub reveal">Paste your AI-generated text below and watch it transform.</p>
+
+      <!-- Tone selector -->
+      <div class="tone-bar reveal">
+        <span class="tone-label">Tone:</span>
+        <div class="tone-options" id="toneOptions">
+          <button class="tone-btn active" data-tone="casual">Casual</button>
+          <button class="tone-btn" data-tone="professional">Professional</button>
+          <button class="tone-btn" data-tone="friendly">Friendly</button>
+          <button class="tone-btn" data-tone="persuasive">Persuasive</button>
+          <button class="tone-btn" data-tone="storytelling">Storytelling</button>
+        </div>
+      </div>
+
+      <!-- Editor panels -->
+      <div class="editor-grid reveal">
+
+        <!-- Input panel -->
+        <div class="panel" id="inputPanel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span class="panel-dot ai-dot"></span>
+              AI Text Input
+            </div>
+            <button class="icon-btn" id="clearBtn" title="Clear input">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+          <textarea
+            id="inputText"
+            class="editor-textarea"
+            placeholder="Paste your AI-generated text here…&#10;&#10;For example:&#10;&quot;Furthermore, it is important to note that the utilization of this approach will facilitate significant improvements...&quot;"
+            spellcheck="false"
+          ></textarea>
+          <div class="panel-footer">
+            <span class="count-badge" id="inputWordCount">0 words</span>
+            <span class="count-badge" id="inputCharCount">0 chars</span>
+          </div>
+        </div>
+
+        <!-- Center button -->
+        <div class="center-col">
+          <button class="humanize-btn" id="humanizeBtn">
+            <span class="btn-text">Humanize</span>
+            <span class="btn-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="btn-loader" id="btnLoader">
+              <span class="loader-ring"></span>
+            </span>
+          </button>
+        </div>
+
+        <!-- Output panel -->
+        <div class="panel" id="outputPanel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span class="panel-dot human-dot"></span>
+              Human Output
+            </div>
+            <button class="icon-btn" id="copyBtn" title="Copy output">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <rect x="1" y="4" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+                <path d="M4 4V2.5A1.5 1.5 0 015.5 1H11.5A1.5 1.5 0 0113 2.5V8.5A1.5 1.5 0 0111.5 10H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+          <div class="editor-output" id="outputText">
+            <div class="output-placeholder">
+              <div class="placeholder-icon">✦</div>
+              <p>Your humanized text will appear here…</p>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <span class="count-badge" id="outputWordCount">0 words</span>
+            <span class="count-badge" id="outputCharCount">0 chars</span>
+            <span class="copy-toast" id="copyToast">Copied!</span>
+          </div>
+        </div>
+
+      </div><!-- /editor-grid -->
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════
+       HOW IT WORKS
+  ════════════════════════════════ -->
+  <section class="how-section" id="how">
+    <div class="container">
+      <div class="section-label reveal">The Process</div>
+      <h2 class="section-title reveal">How HumaFlow Works</h2>
+      <div class="steps-grid">
+
+        <div class="step-card reveal">
+          <div class="step-num">01</div>
+          <h3>Paste AI Text</h3>
+          <p>Drop in any AI-generated content — blog posts, emails, essays, marketing copy, or anything else.</p>
+        </div>
+
+        <div class="step-card reveal">
+          <div class="step-num">02</div>
+          <h3>Pick Your Tone</h3>
+          <p>Choose from Casual, Professional, Friendly, Persuasive, or Storytelling to match your audience perfectly.</p>
+        </div>
+
+        <div class="step-card reveal">
+          <div class="step-num">03</div>
+          <h3>Humanize</h3>
+          <p>Our engine applies contractions, breaks robotic patterns, varies sentence rhythm, and injects natural flow.</p>
+        </div>
+
+        <div class="step-card reveal">
+          <div class="step-num">04</div>
+          <h3>Copy &amp; Use</h3>
+          <p>One click to copy. Paste anywhere. Your text sounds like a real person wrote it — because now it does.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════
+       API SECTION
+  ════════════════════════════════ -->
+  <section class="api-section" id="api">
+    <div class="container">
+      <div class="section-label reveal">Developers</div>
+      <h2 class="section-title reveal">Simple REST API</h2>
+      <p class="section-sub reveal">Integrate HumaFlow into your own applications in minutes.</p>
+
+      <div class="api-grid reveal">
+        <div class="api-info">
+          <h3>Endpoint</h3>
+          <div class="code-block">
+            <span class="method">POST</span>
+            <span class="endpoint">http://localhost:3000/humanize</span>
+          </div>
+          <h3>Request Body</h3>
+          <pre class="code-box">{
+  "text": "Your AI-generated text here...",
+  "tone": "casual" // or professional, friendly,
+              // persuasive, storytelling
+}</pre>
+          <h3>Response</h3>
+          <pre class="code-box">{
+  "original": "...",
+  "humanized": "...",
+  "tone": "casual",
+  "wordCount": 42,
+  "charCount": 231
+}</pre>
+        </div>
+
+        <!-- Live API tester -->
+        <div class="api-tester">
+          <div class="tester-header">
+            <span class="tester-dot red"></span>
+            <span class="tester-dot yellow"></span>
+            <span class="tester-dot green"></span>
+            <span class="tester-title">Live API Test</span>
+          </div>
+          <textarea id="apiInput" class="tester-textarea" placeholder="Enter text to test the API..."></textarea>
+          <select id="apiTone" class="tester-select">
+            <option value="casual">casual</option>
+            <option value="professional">professional</option>
+            <option value="friendly">friendly</option>
+            <option value="persuasive">persuasive</option>
+            <option value="storytelling">storytelling</option>
+          </select>
+          <button class="tester-btn" id="apiTestBtn">
+            <span>Run Request</span>
+          </button>
+          <div class="tester-response" id="apiResponse">
+            <span class="tester-placeholder">// Response will appear here</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════
+       ABOUT
+  ════════════════════════════════ -->
+  <section class="about-section" id="about">
+    <div class="container">
+      <div class="about-inner reveal">
+        <div class="about-text">
+          <div class="section-label">About</div>
+          <h2>Built for creators who<br />refuse to sound robotic.</h2>
+          <p>HumaFlow AI started with a simple frustration: AI-generated content is useful, but it always feels… off. Too stiff. Too pattern-heavy. Too obviously machine-made.</p>
+          <p>So we built an engine that understands how humans actually write — with rhythm, with personality, with the occasional imperfection that makes writing feel alive.</p>
+          <p>Whether you're a blogger, marketer, student, or developer — HumaFlow gives your content the voice it deserves.</p>
+        </div>
+        <div class="about-features">
+          <div class="feature-item">
+            <span class="feature-icon">⚡</span>
+            <div>
+              <strong>Lightning Fast</strong>
+              <p>Under a second for most texts.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🎯</span>
+            <div>
+              <strong>Meaning Preserved</strong>
+              <p>Zero information loss, guaranteed.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🔒</span>
+            <div>
+              <strong>Privacy First</strong>
+              <p>Text is never stored or logged.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🛠</span>
+            <div>
+              <strong>API Ready</strong>
+              <p>REST API for easy integration.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════
+       FOOTER
+  ════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">
+        <span class="logo-mark small">H</span>
+        <span>HumaFlow <em>AI</em></span>
+      </div>
+      <p class="footer-copy">© 2025 HumaFlow AI. Built with ✦ and a hatred of robotic prose.</p>
+      <div class="footer-links">
+        <a href="#app">App</a>
+        <a href="#api">API</a>
+        <a href="#about">About</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
